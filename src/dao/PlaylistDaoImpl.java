@@ -97,6 +97,30 @@ public class PlaylistDaoImpl implements PlaylistDao {
 		return dto;
 	}
 	
+	public int getCount() {
+		int retCnt = 0;
+		String sql = "SELECT COUNT(*) as cnt FROM step_up_ost";
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = conn.prepareStatement(sql);
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next()) {
+				retCnt = rs.getInt("cnt");
+			}
+
+		} catch (Exception e) {
+			System.out.println("SELECT 메서드 예외발생");
+		} finally {
+			try {
+				if (pstmt != null && !pstmt.isClosed()) {
+					pstmt.close();
+				}
+			} catch (Exception e2) {
+			}
+		}
+		return retCnt;
+	}
+	
 	public int selectTitleArtist(String Title, String Artist) {
 		String sql = "SELECT num FROM step_up_ost WHERE Title = ? AND Artist = ?";
 		int num = 0;
@@ -127,13 +151,13 @@ public class PlaylistDaoImpl implements PlaylistDao {
 
 	@Override
 	public void update(PlaylistDto dto) {
-		String sql = "UPDATE step_up_ost SET email = ? WHERE  num = ?";
+		String sql = "UPDATE step_up_ost SET Title = ?, Artist = ? WHERE  num = ?";
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, dto.getTitle());
-//			pstmt.setString(1, dto.getEmail());
-			pstmt.setInt(2, dto.getNum());
+			pstmt.setString(2, dto.getArtist());
+			pstmt.setInt(3, dto.getNum());
 			pstmt.executeUpdate();
 //			System.out.println("수정된 id: " + id);
 
@@ -152,8 +176,33 @@ public class PlaylistDaoImpl implements PlaylistDao {
 
 	@Override
 	public ArrayList<PlaylistDto> selectAll() {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<PlaylistDto> list = new ArrayList<PlaylistDto>(); 
+		String sql = "SELECT * FROM step_up_ost";
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = conn.prepareStatement(sql);
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+				PlaylistDto dto = new PlaylistDto();
+				dto.setNum(rs.getInt("num"));
+				dto.setTitle(rs.getString("Title"));
+				dto.setArtist(rs.getString("Artist"));
+				dto.setAlbum(rs.getString("Album"));
+				dto.setPlaytime(rs.getString("Playtime"));
+				list.add(dto);
+			}
+
+		} catch (Exception e) {
+			System.out.println("SELECT 메서드 예외발생");
+		} finally {
+			try {
+				if (pstmt != null && !pstmt.isClosed()) {
+					pstmt.close();
+				}
+			} catch (Exception e2) {
+			}
+		}
+		return list;
 	}
 
 	
