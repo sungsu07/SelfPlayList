@@ -14,7 +14,7 @@ public interface PlaylistDao {
 	public PlaylistDto selectOne(int n);
 	
 	// 데이터 전체보기
-	public ArrayList<PlaylistDao> selectAll();
+	public ArrayList<PlaylistDto> selectAll();
 	
 	// 데이터 수정
 	public void update(PlaylistDto dto);

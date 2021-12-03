@@ -7,13 +7,16 @@ import com.lss.util.util;
 import dto.PlaylistDto;
 
 public class StepUp_Ost {
-	public ArrayList<PlaylistDto> getPlayList(String filePath){
+	
+	public ArrayList<PlaylistDto> getPlayList(String filePath) {
 		ArrayList<PlaylistDto> retList = new ArrayList<PlaylistDto>();
 		ArrayList<String> spList = util.readLineFileList(filePath);
+		
 		for (String s : spList) {
+//			System.out.println(s);
 			PlaylistDto dto = new PlaylistDto();
-			String[] sp = s.split(",");
-			dto.setNum(Integer.parseInt(sp[0])); //문자열을 숫자로
+			String[] sp = s.split("\t");
+			dto.setNum(Integer.parseInt(sp[0])); // 문자열을 숫자로
 			dto.setTitle(sp[1]);
 			dto.setArtist(sp[2]);
 			dto.setAlbum(sp[3]);

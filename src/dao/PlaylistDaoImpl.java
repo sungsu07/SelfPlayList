@@ -123,37 +123,7 @@ public class PlaylistDaoImpl implements PlaylistDao {
 		return num;
 	}
 
-	@Override
-	public ArrayList<PlaylistDto> selectAll() {
-		ArrayList<PlaylistDao> list = new ArrayList<PlaylistDto>();
-		String sql = "SELECT * FROM step_up_ost";
-		PreparedStatement pstmt = null;
-		try {
-			pstmt = conn.prepareStatement(sql);
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next()) {
-				PlaylistDto dto = new PlaylistDto();
-				dto.setNum(rs.getInt("Num"));
-				dto.setTitle(rs.getString("Title"));
-				dto.setArtist(rs.getString("Artist"));
-				dto.setAlbum(rs.getString("Album"));
-				dto.setPlaytime(rs.getString("Playtime"));
-				list.add((PlaylistDao) dto);
-			}
-
-
-		} catch (Exception e) {
-			System.out.println("SELECT 메서드 예외발생");
-		} finally {
-			try {
-				if (pstmt != null && !pstmt.isClosed()) {
-					pstmt.close();
-				}
-			} catch (Exception e2) {
-			}
-		}
-		return list;
-	}
+	
 
 	@Override
 	public void update(PlaylistDto dto) {
@@ -178,6 +148,12 @@ public class PlaylistDaoImpl implements PlaylistDao {
 			}
 		}
 
+	}
+
+	@Override
+	public ArrayList<PlaylistDto> selectAll() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	
